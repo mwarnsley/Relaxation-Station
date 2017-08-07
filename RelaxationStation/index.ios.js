@@ -15,7 +15,7 @@ const { quotes } = require('./quotes.json');
 
 const zenImage = require('./assets/zen.png');
 
-export default class RelaxationStation extends Component {
+class RelaxationStation extends Component {
   constructor() {
     super();
 

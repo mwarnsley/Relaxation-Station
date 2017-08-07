@@ -1,53 +1,58 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
+import {Navigator} from 'react-native-deprecated-custom-components';
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  TouchableOpacity,
+  View,
+  Image,
 } from 'react-native';
 
-export default class RelaxationStation extends Component {
+import StartScreen from './StartScreen';
+import QuoteScreen from './QuoteScreen';
+const { quotes } = require('./quotes.json');
+
+const zenImage = require('./assets/zen.png');
+
+class RelaxationStation extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      quoteIndex: 0
+    };
+    this._incrementQuoteIndex = this._incrementQuoteIndex.bind(this);
+  }
+  _incrementQuoteIndex() {
+    const quoteIndex = this.state.quoteIndex;
+    let newIndex;
+    if (quoteIndex + 1 === quotes.length) {
+      newIndex = 0;
+    } else {
+      newIndex = quoteIndex + 1;
+    }
+    this.setState({
+      quoteIndex: newIndex,
+    });
+  }
   render() {
+    const quoteIndex = this.state.quoteIndex;
+    const quote = quotes[quoteIndex];
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <Navigator
+        initialRoute={{ name: 'StartScreen' }}
+        renderScene={(route, navigator) => {
+          switch (route.name) {
+          case 'StartScreen':
+            return <StartScreen onStartHandler={() => navigator.push({ name: 'QuoteScreen' })}/>
+          case 'QuoteScreen':
+            return <QuoteScreen id={quoteIndex} text={quote.text} source={quote.source} onNextQuotePress={this._incrementQuoteIndex}/>
+          }
+        }}
+      />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 
 AppRegistry.registerComponent('RelaxationStation', () => RelaxationStation);
