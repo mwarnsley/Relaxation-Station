@@ -1,54 +1,35 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
+import {Navigator} from 'react-native-deprecated-custom-components';
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  TouchableOpacity,
+  View,
+  Image,
 } from 'react-native';
+
+import StartScreen from './StartScreen';
+import QuoteScreen from './QuoteScreen';
+
+const zenImage = require('./assets/zen.png');
 
 export default class RelaxationStation extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to My App!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
+      <Navigator
+        initialRoute={{ name: 'StartScreen' }}
+        renderScene={(route, navigator) => {
+          switch (route.name) {
+          case 'StartScreen':
+            return <StartScreen onStartHandler={() => navigator.push({ name: 'QuoteScreen' })}/>
+          case 'QuoteScreen':
+            return <QuoteScreen />
+          }
+        }}
+      />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#161737',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-    color: '#FFF'
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#DBDBDB',
-    marginBottom: 5,
-  },
-});
 
 AppRegistry.registerComponent('RelaxationStation', () => RelaxationStation);
