@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
 			'Roboto',
 		fontSize: 20,
 		color: '#F8F8F8',
+    marginRight: 10,
 		textAlign: 'right',
 		fontStyle: 'italic',
 	},
