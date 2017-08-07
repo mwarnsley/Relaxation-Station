@@ -9,7 +9,7 @@ class Quote extends Component {
   render() {
     const {quoteText, sourceText} = this.props;
     return (
-      <View>
+      <View style={styles.quoteContainer}>
         <Text style={styles.quoteText}>"{quoteText}"</Text>
         <Text style={styles.sourceText}>{sourceText}</Text>
       </View>
